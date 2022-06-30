@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: default
+spec:
+  selector:
+    app: database
+  type: ClusterIP
+  ports:
+    - name: database
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  namespace: default
+  labels:
+    app: database
+spec:
+  selector:
+    matchLabels:
+      app: database
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: s.flores9
+
+          ports:
+            - containerPort: 5432
+              name: database

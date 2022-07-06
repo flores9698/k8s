@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: saulflores9698/backend:0.1.9
+          image: saulflores9698/backend:0.1.10
           resources:
             requests:
               cpu: 100m
